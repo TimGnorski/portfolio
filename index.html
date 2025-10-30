@@ -1,1 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Timothy Gnorski – Portfolio</title>
+  <meta name="description" content="Timothy Gnorski – Computer Engineering @ Marquette University. Projects in VHDL/RISC‑V, embedded systems, AI/LLMs, and web." />
+  <meta property="og:title" content="Timothy Gnorski – Portfolio" />
+  <meta property="og:description" content="Projects in VHDL/RISC‑V, embedded systems, AI/LLMs, and web." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/og-preview.png" />
+  <meta name="theme-color" content="#0f172a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b1020;--fg:#e5e7eb;--muted:#94a3b8;--card:#11162a;--accent:#6ee7b7;--link:#93c5fd;--chip:#1f2937;--border:#233052
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--fg);line-height:1.65}
+    a{color:var(--link);text-decoration:none}
+    a:hover{text-decoration:underline}
+    img{max-width:100%;display:block}
+    .container{max-width:1100px;margin:0 auto;padding:28px}
+    header{display:flex;gap:18px;align-items:center;justify-content:space-between}
+    .brand{display:flex;align-items:center;gap:14px}
+    .avatar{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#334155,#0ea5e9)}
+    .title h1{margin:0;font-size:1.6rem;letter-spacing:.2px}
+    .title p{margin:2px 0 0;color:var(--muted);font-size:.95rem}
+    .actions{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:#0b1224;color:var(--fg);text-decoration:none}
+    .btn.primary{background:linear-gradient(180deg,#1f2937,#0b1224);border-color:#324269}
+    .grid{display:grid;gap:18px}
+    .hero{margin-top:18px;padding:22px;border:1px solid var(--border);border-radius:18px;background:radial-gradient(1200px 400px at 0% -20%,rgba(99,102,241,.22),transparent 60%),var(--card)}
+    .hero h2{font-size:1.35rem;margin:0 0 10px}
+    .chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 2px}
+    .chip{font-size:.8rem;background:var(--chip);border:1px solid var(--border);padding:6px 10px;border-radius:999px;color:#cbd5e1}
+    section{margin-top:28px}
+    section h3{margin:0 0 12px;font-size:1.2rem}
+    .card{border:1px solid var(--border);border-radius:18px;background:var(--card);padding:18px}
+    .projects{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+    .project h4{margin:0 0 6px;font-size:1.05rem}
+    .project .meta{color:var(--muted);font-size:.9rem;margin-bottom:8px}
+    .project ul{margin:10px 0 0;padding-left:18px}
+    .skills{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+    .skill-card ul{margin:6px 0 0;padding-left:18px}
+    .timeline{position:relative}
+    .timeline::before{content:"";position:absolute;left:10px;top:0;bottom:0;width:2px;background:#223055}
+    .t-item{position:relative;margin-left:28px;margin-bottom:14px}
+    .t-item::before{content:"";position:absolute;left:-19px;top:2px;width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px #16303a}
+    .t-head{display:flex;justify-content:space-between;gap:12px}
+    .footer{margin:30px 0 40px;color:var(--muted);font-size:.95rem}
+    .kbd{background:#0b1224;border:1px solid var(--border);padding:2px 6px;border-radius:6px;font-family:ui-monospace,Consolas;}
+    .toggle{cursor:pointer}
+    /* Print-friendly one-pager */
+    @media print{
+      body{background:#fff;color:#111}
+      .hero,.card{break-inside:avoid;border-color:#ddd;background:#fff}
+      a{color:#0366d6}
+      .actions,.toggle{display:none}
+    }
+    /* Light mode */
+    @media (prefers-color-scheme: light){
+      :root{--bg:#f7fafc;--fg:#0b1020;--muted:#475569;--card:#ffffff;--accent:#0ea5e9;--link:#2563eb;--chip:#eef2ff;--border:#e5e7eb}
+    }
+  </style>
+  <script>
+    // Dark/light toggle with localStorage
+    const applyTheme = () => {
+      const t = localStorage.getItem('theme');
+      if(!t) return; // respect system default
+      document.documentElement.style.colorScheme = t;
+      if(t==='light'){
+        document.documentElement.classList.add('light');
+      }else{
+        document.documentElement.classList.remove('light');
+      }
+    };
+    document.addEventListener('DOMContentLoaded',applyTheme);
+    function toggleTheme(){
+      const current = localStorage.getItem('theme');
+      const next = current==='light' ? 'dark' : current==='dark' ? null : 'light';
+      if(next) localStorage.setItem('theme',next); else localStorage.removeItem('theme');
+      location.reload();
+    }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Timothy Gnorski",
+    "jobTitle": "Computer Engineering Student",
+    "affiliation": {"@type":"CollegeOrUniversity","name":"Marquette University"},
+    "url": "https://example.com",
+    "sameAs": ["https://github.com/your-github","https://www.linkedin.com/in/your-linkedin"],
+    "knowsAbout": ["VHDL","RISC-V","Embedded Systems","I2C","LLMs","Text-to-SQL","Web Development"]
+  }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="avatar" aria-hidden="true"></div>
+        <div class="title">
+          <h1>Timothy Gnorski</h1>
+          <p>Computer Engineering @ Marquette • Embedded systems • VHDL/RISC‑V • AI/LLMs • Web</p>
+        </div>
+      </div>
+      <div class="actions">
+        <a class="btn primary" href="#projects">View Projects</a>
+        <a class="btn" href="assets/Timothy_Gnorski_Resume.pdf" download>Download Résumé</a>
+        <button class="btn toggle" onclick="toggleTheme()" title="Toggle light/dark">Toggle theme</button>
+      </div>
+    </header>
+
+    <section class="hero card" aria-labelledby="about">
+      <h2 id="about">Hi, I build hardware‑aware software and software‑aware hardware.</h2>
+      <p>
+        I love the seam where bits meet atoms: microcontrollers, digital design, and ML systems that actually ship. I’ve led and contributed to projects ranging from a structural VHDL RISC‑V core to a personal finance web app and a Text‑to‑SQL research pipeline.
+      </p>
+      <div class="chips" role="list" aria-label="Highlights">
+        <span class="chip" role="listitem">E‑Lead Cohort</span>
+        <span class="chip" role="listitem">Sigma Phi Delta – Historian & Guide</span>
+        <span class="chip" role="listitem">Gold ’n Blues – Vice‑President</span>
+      </div>
+      <div class="actions" style="margin-top:10px">
+        <a class="btn" href="mailto:youremail@example.com">Email</a>
+        <a class="btn" href="https://github.com/your-github">GitHub</a>
+        <a class="btn" href="https://www.linkedin.com/in/your-linkedin">LinkedIn</a>
+      </div>
+    </section>
+
+    <section id="projects">
+      <h3>Selected Projects</h3>
+      <div class="grid projects">
+        <article class="card project">
+          <h4>Structural VHDL RISC‑V (RV32I)</h4>
+          <div class="meta">VHDL • Vivado • Basys3 • ALU32, RegFile, IMEM/DMEM, Control</div>
+          <p>Designed a 32‑bit RV32I processor with separate ALU slices (LSB/MSB), control units, and testbench verification of a small program. Achieved correct register file state across pipeline stages in simulation.</p>
+          <ul>
+            <li>Architectures for <em>ALU</em>, <em>ALUControl</em>, <em>MainControl</em>, <em>PC</em>, <em>RegFile</em>, <em>IMEM/DMEM</em></li>
+            <li>Waveform‑driven debugging and assertions</li>
+          </ul>
+        </article>
+        <article class="card project">
+          <h4>MoneyMogul – Personal Finance Web App</h4>
+          <div class="meta">HTML/CSS/JS • Flask/Go backend • Achievements • Goals • Charts</div>
+          <p>Tracks goals with progress bars, monthly expenses with category breakdowns, and an advice module. Team project with frontend/backend repos.</p>
+          <ul>
+            <li>Goals with completion → Achievements</li>
+            <li>Expenses page & category pie chart</li>
+          </ul>
+        </article>
+        <article class="card project">
+          <h4>Text‑to‑SQL with T5‑small + PICARD</h4>
+          <div class="meta">Python • NLP • Spider dataset • Eval pipeline</div>
+          <p>End‑to‑end pipeline (preprocess → train → generate → evaluate). Baseline ~32% execution accuracy on a 100‑item dev slice; scaling, PICARD constraints, and error analysis planned.</p>
+          <ul>
+            <li>Beam search decoding, schema serialization</li>
+            <li>Reproducible training scripts</li>
+          </ul>
+        </article>
+        <article class="card project">
+          <h4>Smart Pet Door (I2C + PIR)</h4>
+          <div class="meta">PSoC Creator • I2C • TC74 • Servo • PIR</div>
+          <p>Automatic door using PIR motion detection and temperature readout. Implemented robust I2C comms and debounced control logic.</p>
+          <ul>
+            <li>Logged sensor data via UART</li>
+            <li>Safety interlocks and fail‑closed design</li>
+          </ul>
+        </article>
+        <article class="card project">
+          <h4>Ghost Rancher – Unity 3D</h4>
+          <div class="meta">Unity • C# • NavMesh • AI behaviors</div>
+          <p>Prototype game with hovering ghosts that avoid the player, token collection loops, and corral logic with ectoplasm economy.</p>
+          <ul>
+            <li>Spawner + hover animation system</li>
+            <li>Corral UI counters and resources</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h3>Skills</h3>
+      <div class="grid skills">
+        <div class="card skill-card">
+          <strong>Hardware & Embedded</strong>
+          <ul>
+            <li>VHDL, RISC‑V, FSMs</li>
+            <li>PSoC, I2C, UART, PWM</li>
+            <li>Oscilloscopes, logic analyzers</li>
+          </ul>
+        </div>
+        <div class="card skill-card">
+          <strong>Software</strong>
+          <ul>
+            <li>Python, C/C++, C#</li>
+            <li>Flask, REST APIs</li>
+            <li>SQL, pandas, NumPy</li>
+          </ul>
+        </div>
+        <div class="card skill-card">
+          <strong>AI/ML</strong>
+          <ul>
+            <li>LLMs (T5), PICARD</li>
+            <li>Data preprocessing & eval</li>
+            <li>Prompting & GenAI apps</li>
+          </ul>
+        </div>
+        <div class="card skill-card">
+          <strong>Leadership</strong>
+          <ul>
+            <li>E‑Lead cohort member</li>
+            <li>SPD Historian & Guide</li>
+            <li>GNB Vice‑President</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h3>Experience & Education</h3>
+      <div class="card">
+        <div class="timeline">
+          <div class="t-item">
+            <div class="t-head"><strong>Marquette University – B.S. Computer Engineering</strong><span>Expected Jun 2027</span></div>
+            <div class="t-body">Core: Digital Electronics, Microprocessors, Data Structures, Linear Systems, Advertising elective.</div>
+          </div>
+          <div class="t-item">
+            <div class="t-head"><strong>Research & Projects</strong><span>2024–2025</span></div>
+            <div class="t-body">Undergrad research interests in digital design and AI systems; multiple multi‑semester builds and team projects.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h3>Contact</h3>
+      <div class="card">
+        <p>Email: <a href="mailto:youremail@example.com">youremail@example.com</a> · GitHub: <a href="https://github.com/your-github">your-github</a> · LinkedIn: <a href="https://www.linkedin.com/in/your-linkedin/">your-linkedin</a></p>
+        <p>Tip: Press <span class="kbd">Ctrl</span> + <span class="kbd">P</span> to print this page as a one‑page PDF résumé.</p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <small>© <span id="y"></span> Timothy Gnorski. Built with plain HTML/CSS/JS. No frameworks needed.</small>
+    </footer>
+  </div>
+  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+</body>
+</html>
 
