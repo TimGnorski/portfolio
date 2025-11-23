@@ -54,10 +54,27 @@
     .footer{margin:30px 0 40px;color:var(--muted);font-size:.95rem}
     .kbd{background:#0b1224;border:1px solid var(--border);padding:2px 6px;border-radius:6px;font-family:ui-monospace,Consolas;}
     .toggle{cursor:pointer}
+    /* Intro section styles */
+    .intro-section{text-align:center;padding:60px 28px;margin:40px 0;position:relative;min-height:500px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+    .intro-name{font-size:clamp(3rem,8vw,6rem);font-weight:800;margin:0;background:linear-gradient(135deg,#6ee7b7,#93c5fd,#0ea5e9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-2px;position:relative;z-index:1;text-shadow:0 0 40px rgba(110,231,183,0.3)}
+    .intro-headshot{width:200px;height:200px;border-radius:50%;object-fit:cover;margin:30px auto;border:4px solid var(--accent);box-shadow:0 0 30px rgba(110,231,183,0.4),0 0 60px rgba(147,197,253,0.3);position:relative;z-index:1}
+    .intro-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(110,231,183,0.3),rgba(147,197,253,0.2),transparent);filter:blur(40px);z-index:0;pointer-events:none}
+    .intro-glow-2{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(14,165,233,0.25),rgba(99,102,241,0.15),transparent);filter:blur(60px);z-index:0;pointer-events:none;animation-delay:1s}
     /* Animation initial states */
-    header,.hero,.chip,.project,.skill-card,.t-item{opacity:0}
+    header,.chip,.project,.skill-card,.t-item{opacity:0}
+    .hero{opacity:0}
+    .intro-section,.intro-name,.intro-headshot{opacity:0}
+    /* Scroll-triggered sections start hidden (except hero and intro) */
+    section:not(.hero):not(.intro-section){opacity:0;transform:translateY(50px)}
+    section.animated{opacity:1;transform:translateY(0)}
     /* Smooth transitions for hover effects */
     .card,.btn{transition:box-shadow 0.3s ease}
+    /* Text elements for bounce animation */
+    h1,h2,h3,h4,strong{display:inline-block;cursor:default}
+    /* Abstract background animations */
+    .abstract-bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1;overflow:hidden}
+    .particle{position:absolute;border-radius:50%;opacity:0.1}
+    .gradient-orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.3}
     /* Print-friendly one-pager */
     @media print{
       body{background:#fff;color:#111}
@@ -119,6 +136,14 @@
         <button class="btn toggle" onclick="toggleTheme()" title="Toggle light/dark">Toggle theme</button>
       </div>
     </header>
+
+    <!-- Big Intro Section -->
+    <section class="intro-section" id="intro">
+      <div class="intro-glow"></div>
+      <div class="intro-glow-2"></div>
+      <h1 class="intro-name">Timothy Gnorski</h1>
+      <img src="assets/headshot.jpg" alt="Timothy Gnorski" class="intro-headshot" id="headshot">
+    </section>
 
     <section class="hero card" aria-labelledby="about">
       <h2 id="about">Hi, I build hardware‑aware software and software‑aware hardware.</h2>
@@ -254,6 +279,10 @@
       <small>© <span id="y"></span> Timothy Gnorski. Built with plain HTML/CSS/JS. No frameworks needed.</small>
     </footer>
   </div>
+  
+  <!-- Abstract background animations -->
+  <div class="abstract-bg" id="abstractBg"></div>
+  
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
   <script>
     document.getElementById('y').textContent = new Date().getFullYear();
@@ -268,6 +297,104 @@
         duration: 800,
         easing: 'easeOutQuad'
       });
+
+      // Intro section animations - Name animation
+      anime({
+        targets: '.intro-name',
+        opacity: [0, 1],
+        scale: [0.5, 1],
+        translateY: [-50, 0],
+        duration: 1200,
+        delay: 300,
+        easing: 'easeOutElastic(1, .6)'
+      });
+
+      // Intro headshot animation
+      anime({
+        targets: '.intro-headshot',
+        opacity: [0, 1],
+        scale: [0, 1],
+        rotate: [0, 360],
+        duration: 1000,
+        delay: 800,
+        easing: 'easeOutElastic(1, .5)'
+      });
+
+      // Pulsing glow effect for headshot
+      anime({
+        targets: '.intro-headshot',
+        boxShadow: [
+          '0 0 30px rgba(110,231,183,0.4), 0 0 60px rgba(147,197,253,0.3)',
+          '0 0 50px rgba(110,231,183,0.7), 0 0 100px rgba(147,197,253,0.5), 0 0 150px rgba(14,165,233,0.3)',
+          '0 0 30px rgba(110,231,183,0.4), 0 0 60px rgba(147,197,253,0.3)'
+        ],
+        scale: [1, 1.05, 1],
+        duration: 3000,
+        delay: 1800,
+        easing: 'easeInOutSine',
+        loop: true
+      });
+
+      // Pulsing glow effects for background glows
+      anime({
+        targets: '.intro-glow',
+        scale: [1, 1.3, 1],
+        opacity: [0.3, 0.6, 0.3],
+        duration: 4000,
+        delay: 1000,
+        easing: 'easeInOutSine',
+        loop: true
+      });
+
+      anime({
+        targets: '.intro-glow-2',
+        scale: [1, 1.4, 1],
+        opacity: [0.25, 0.5, 0.25],
+        duration: 5000,
+        delay: 1500,
+        easing: 'easeInOutSine',
+        loop: true
+      });
+
+      // Name text glow pulsing
+      anime({
+        targets: '.intro-name',
+        textShadow: [
+          '0 0 40px rgba(110,231,183,0.3)',
+          '0 0 60px rgba(110,231,183,0.6), 0 0 80px rgba(147,197,253,0.4)',
+          '0 0 40px rgba(110,231,183,0.3)'
+        ],
+        duration: 3500,
+        delay: 2000,
+        easing: 'easeInOutSine',
+        loop: true
+      });
+
+      // Headshot hover effect
+      const headshotEl = document.querySelector('.intro-headshot');
+      if (headshotEl) {
+        headshotEl.style.cursor = 'pointer';
+        headshotEl.addEventListener('mouseenter', function() {
+          anime({
+            targets: this,
+            scale: 1.1,
+            rotate: 5,
+            boxShadow: '0 0 80px rgba(110,231,183,0.8), 0 0 120px rgba(147,197,253,0.6), 0 0 180px rgba(14,165,233,0.4)',
+            duration: 400,
+            easing: 'easeOutQuad'
+          });
+        });
+        headshotEl.addEventListener('mouseleave', function() {
+          anime({
+            targets: this,
+            scale: 1,
+            rotate: 0,
+            boxShadow: '0 0 30px rgba(110,231,183,0.4), 0 0 60px rgba(147,197,253,0.3)',
+            duration: 400,
+            easing: 'easeOutQuad'
+          });
+        });
+      }
 
       // Hero section animation
       anime({
@@ -388,30 +515,222 @@
         });
       });
 
-      // Intersection Observer for scroll-triggered animations
+      // Enhanced scroll-triggered animations with pop-in effect
       const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
+        threshold: 0.15,
+        rootMargin: '0px 0px -100px 0px'
       };
 
-      const observer = new IntersectionObserver(function(entries) {
+      const sectionObserver = new IntersectionObserver(function(entries) {
         entries.forEach(entry => {
-          if (entry.isIntersecting) {
+          if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
+            entry.target.classList.add('animated');
+            
+            // Pop-in animation with bounce
             anime({
               targets: entry.target,
               opacity: [0, 1],
-              translateY: [30, 0],
-              duration: 800,
-              easing: 'easeOutQuad'
+              translateY: [60, 0],
+              scale: [0.95, 1],
+              duration: 900,
+              easing: 'easeOutElastic(1, .8)',
+              complete: function() {
+                // Animate child elements with stagger
+                const children = entry.target.querySelectorAll('.card, .project, .skill-card, .t-item, h3');
+                anime({
+                  targets: children,
+                  opacity: [0, 1],
+                  translateY: [20, 0],
+                  delay: anime.stagger(80),
+                  duration: 600,
+                  easing: 'easeOutQuad'
+                });
+              }
             });
-            observer.unobserve(entry.target);
+            
+            sectionObserver.unobserve(entry.target);
           }
         });
       }, observerOptions);
 
-      // Observe sections for scroll animations
+      // Observe all sections for scroll animations (except hero and intro which animate on load)
       document.querySelectorAll('section').forEach(section => {
-        observer.observe(section);
+        // Skip hero and intro sections as they animate on page load
+        if (!section.classList.contains('hero') && !section.classList.contains('intro-section')) {
+          sectionObserver.observe(section);
+        }
+      });
+
+      // Fallback for headshot image if it doesn't exist
+      const headshot = document.getElementById('headshot');
+      if (headshot) {
+        headshot.addEventListener('error', function() {
+          this.style.display = 'none';
+          // Create a placeholder avatar if image fails to load
+          const placeholder = document.createElement('div');
+          placeholder.className = 'intro-headshot';
+          placeholder.style.background = 'linear-gradient(135deg, #334155, #0ea5e9)';
+          placeholder.style.display = 'flex';
+          placeholder.style.alignItems = 'center';
+          placeholder.style.justifyContent = 'center';
+          placeholder.style.fontSize = '4rem';
+          placeholder.textContent = 'TG';
+          this.parentNode.insertBefore(placeholder, this);
+        });
+      }
+
+      // Text bounce animation on hover - wrap words in spans
+      function wrapWords(element) {
+        const text = element.textContent;
+        const words = text.split(/(\s+)/);
+        element.innerHTML = '';
+        words.forEach(word => {
+          if (word.trim()) {
+            const span = document.createElement('span');
+            span.textContent = word;
+            span.style.display = 'inline-block';
+            span.style.whiteSpace = 'pre';
+            element.appendChild(span);
+          } else {
+            element.appendChild(document.createTextNode(word));
+          }
+        });
+      }
+
+      // Apply word wrapping to text elements
+      const textElements = document.querySelectorAll('h1, h2, h3, h4, .hero h2, .title h1');
+      textElements.forEach(element => {
+        wrapWords(element);
+        
+        element.addEventListener('mouseenter', function() {
+          const spans = this.querySelectorAll('span');
+          anime({
+            targets: spans,
+            translateY: [0, -12, 0],
+            scale: [1, 1.15, 1],
+            delay: anime.stagger(40, {start: 0}),
+            duration: 700,
+            easing: 'easeOutElastic(1, .7)'
+          });
+        });
+      });
+
+      // Simpler bounce for other text elements
+      const otherTextElements = document.querySelectorAll('strong, .project h4, .skill-card strong');
+      otherTextElements.forEach(element => {
+        element.style.display = 'inline-block';
+        element.addEventListener('mouseenter', function() {
+          anime({
+            targets: this,
+            translateY: [0, -8, 0],
+            scale: [1, 1.1, 1],
+            duration: 500,
+            easing: 'easeOutElastic(1, .8)'
+          });
+        });
+      });
+
+      // Abstract background animations
+      const abstractBg = document.getElementById('abstractBg');
+      
+      // Create floating particles
+      for (let i = 0; i < 20; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        const size = Math.random() * 4 + 2;
+        particle.style.width = size + 'px';
+        particle.style.height = size + 'px';
+        particle.style.background = i % 3 === 0 ? '#6ee7b7' : (i % 3 === 1 ? '#93c5fd' : '#0ea5e9');
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        abstractBg.appendChild(particle);
+        
+        // Animate particles floating
+        anime({
+          targets: particle,
+          translateX: [
+            {value: Math.random() * 200 - 100, duration: Math.random() * 3000 + 2000},
+            {value: Math.random() * 200 - 100, duration: Math.random() * 3000 + 2000}
+          ],
+          translateY: [
+            {value: Math.random() * 200 - 100, duration: Math.random() * 3000 + 2000},
+            {value: Math.random() * 200 - 100, duration: Math.random() * 3000 + 2000}
+          ],
+          opacity: [
+            {value: 0.1, duration: Math.random() * 2000 + 1000},
+            {value: 0.3, duration: Math.random() * 2000 + 1000},
+            {value: 0.1, duration: Math.random() * 2000 + 1000}
+          ],
+          scale: [
+            {value: 1, duration: Math.random() * 2000 + 1000},
+            {value: 1.5, duration: Math.random() * 2000 + 1000},
+            {value: 1, duration: Math.random() * 2000 + 1000}
+          ],
+          easing: 'easeInOutSine',
+          loop: true,
+          delay: Math.random() * 2000
+        });
+      }
+      
+      // Create animated gradient orbs
+      const colors = ['#6ee7b7', '#93c5fd', '#0ea5e9', '#6366f1'];
+      for (let i = 0; i < 4; i++) {
+        const orb = document.createElement('div');
+        orb.className = 'gradient-orb';
+        const size = Math.random() * 400 + 300;
+        orb.style.width = size + 'px';
+        orb.style.height = size + 'px';
+        orb.style.background = `radial-gradient(circle, ${colors[i]}, transparent)`;
+        orb.style.left = Math.random() * 80 + '%';
+        orb.style.top = Math.random() * 80 + '%';
+        abstractBg.appendChild(orb);
+        
+        // Animate orbs moving slowly
+        anime({
+          targets: orb,
+          translateX: [
+            {value: Math.random() * 300 - 150, duration: 8000 + Math.random() * 4000},
+            {value: Math.random() * 300 - 150, duration: 8000 + Math.random() * 4000}
+          ],
+          translateY: [
+            {value: Math.random() * 300 - 150, duration: 8000 + Math.random() * 4000},
+            {value: Math.random() * 300 - 150, duration: 8000 + Math.random() * 4000}
+          ],
+          scale: [
+            {value: 1, duration: 4000 + Math.random() * 2000},
+            {value: 1.3, duration: 4000 + Math.random() * 2000},
+            {value: 1, duration: 4000 + Math.random() * 2000}
+          ],
+          opacity: [
+            {value: 0.2, duration: 3000 + Math.random() * 2000},
+            {value: 0.4, duration: 3000 + Math.random() * 2000},
+            {value: 0.2, duration: 3000 + Math.random() * 2000}
+          ],
+          easing: 'easeInOutSine',
+          loop: true,
+          delay: Math.random() * 2000
+        });
+      }
+      
+      // Add mouse parallax effect to orbs
+      document.addEventListener('mousemove', function(e) {
+        const orbs = document.querySelectorAll('.gradient-orb');
+        const mouseX = e.clientX / window.innerWidth;
+        const mouseY = e.clientY / window.innerHeight;
+        
+        orbs.forEach((orb, i) => {
+          const speed = (i + 1) * 0.5;
+          const x = (mouseX - 0.5) * 50 * speed;
+          const y = (mouseY - 0.5) * 50 * speed;
+          
+          anime({
+            targets: orb,
+            translateX: x,
+            translateY: y,
+            duration: 2000,
+            easing: 'easeOutQuad'
+          });
+        });
       });
     });
   </script>
