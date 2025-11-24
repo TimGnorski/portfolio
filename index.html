@@ -40,10 +40,32 @@
     section{margin-top:28px}
     section h3{margin:0 0 12px;font-size:1.2rem}
     .card{border:1px solid var(--border);border-radius:18px;background:var(--card);padding:18px}
-    .projects{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+    .projects{display:flex;flex-direction:column;gap:24px}
+    .project{display:flex;gap:24px;align-items:center}
+    .project-content{flex:1}
+    .project-animation{width:120px;height:120px;flex-shrink:0;position:relative;display:flex;align-items:center;justify-content:center}
     .project h4{margin:0 0 6px;font-size:1.05rem}
     .project .meta{color:var(--muted);font-size:.9rem;margin-bottom:8px}
     .project ul{margin:10px 0 0;padding-left:18px}
+    /* Animation elements */
+    .ghost{width:40px;height:50px;background:rgba(147,197,253,0.6);border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;position:relative}
+    .ghost::before{content:"";position:absolute;top:15px;left:10px;width:8px;height:8px;background:#fff;border-radius:50%;box-shadow:18px 0 0 #fff}
+    .ghost::after{content:"";position:absolute;bottom:-10px;left:0;right:0;height:15px;background:rgba(147,197,253,0.6);border-radius:0 0 50% 50% / 0 0 100% 100%;clip-path:polygon(0 0,20% 100%,40% 0,60% 100%,80% 0,100% 100%,100% 0)}
+    .circuit-line{width:2px;height:60px;background:var(--accent);position:absolute;opacity:0.6}
+    .circuit-node{width:8px;height:8px;background:var(--accent);border-radius:50%;position:absolute}
+    .coin{width:30px;height:30px;background:linear-gradient(135deg,#fbbf24,#f59e0b);border-radius:50%;position:relative;box-shadow:0 2px 8px rgba(251,191,36,0.4)}
+    .coin::before{content:"$";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;font-weight:bold;font-size:18px}
+    .database-icon{width:50px;height:50px;border:3px solid var(--accent);border-radius:8px;position:relative}
+    .database-icon::before{content:"";position:absolute;top:12px;left:8px;right:8px;height:2px;background:var(--accent)}
+    .database-icon::after{content:"";position:absolute;bottom:12px;left:8px;right:8px;height:2px;background:var(--accent)}
+    .door{width:40px;height:60px;background:var(--chip);border:2px solid var(--border);border-radius:4px;position:relative;overflow:hidden}
+    .door-handle{width:6px;height:6px;background:var(--accent);border-radius:50%;position:absolute;top:30px;right:4px}
+    .document{width:35px;height:45px;background:var(--card);border:2px solid var(--accent);border-radius:2px;position:relative}
+    .document::before{content:"";position:absolute;top:8px;left:6px;right:6px;height:1.5px;background:var(--accent);opacity:0.6;box-shadow:0 4px 0 var(--accent),0 8px 0 var(--accent)}
+    .chart-bar{width:6px;background:var(--accent);border-radius:2px 2px 0 0;position:absolute;bottom:0}
+    .app-icon{width:45px;height:45px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:12px;position:relative;box-shadow:0 4px 12px rgba(99,102,241,0.3)}
+    .app-icon::before{content:"📱";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:24px}
+    @media (max-width:768px){.project{flex-direction:column}.project-animation{width:100px;height:100px}}
     .skills{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
     .skill-card ul{margin:6px 0 0;padding-left:18px}
     .timeline{position:relative}
@@ -61,9 +83,11 @@
     .intro-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(110,231,183,0.3),rgba(147,197,253,0.2),transparent);filter:blur(40px);z-index:0;pointer-events:none}
     .intro-glow-2{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(14,165,233,0.25),rgba(99,102,241,0.15),transparent);filter:blur(60px);z-index:0;pointer-events:none;animation-delay:1s}
     /* Animation initial states */
-    header,.chip,.project,.skill-card,.t-item{opacity:0}
+    header,.chip,.skill-card,.t-item{opacity:0}
     .hero{opacity:0}
     .intro-section,.intro-name,.intro-headshot{opacity:0}
+    .project{opacity:0}
+    .project-animation > *{opacity:0}
     /* Scroll-triggered sections start hidden (except hero and intro) */
     section:not(.hero):not(.intro-section){opacity:0;transform:translateY(50px)}
     section.animated{opacity:1;transform:translateY(0)}
@@ -142,7 +166,7 @@
       <div class="intro-glow"></div>
       <div class="intro-glow-2"></div>
       <h1 class="intro-name">Timothy Gnorski</h1>
-      <img src="assets/headshot.jpg" alt="Timothy Gnorski" class="intro-headshot" id="headshot">
+      <img src="20251102_Gold N Blues_006_FG 2.jpg" alt="Timothy Gnorski" class="intro-headshot" id="headshot">
     </section>
 
     <section class="hero card" aria-labelledby="about">
@@ -152,8 +176,10 @@
       </p>
       <div class="chips" role="list" aria-label="Highlights">
         <span class="chip" role="listitem">E‑Lead Cohort</span>
-        <span class="chip" role="listitem">Sigma Phi Delta – Historian & Guide</span>
+        <span class="chip" role="listitem">Sigma Phi Delta – Engineering Fraternity</span>
         <span class="chip" role="listitem">Gold ’n Blues – Vice‑President</span>
+        <span class="chip" role="listitem">Embedded Systems Undergraduate Researcher</span>
+        <span class="chip" role="listitem">Go Baby! Go! Volunteer</span>
       </div>
       <div class="actions" style="margin-top:10px">
         <a class="btn" href="mailto:youremail@example.com">Email</a>
@@ -164,8 +190,16 @@
 
     <section id="projects">
       <h3>Selected Projects</h3>
-      <div class="grid projects">
+      <div class="projects">
         <article class="card project">
+          <div class="project-animation" id="riscv-anim">
+            <div class="circuit-line" style="left:20px;top:10px;transform:rotate(45deg)"></div>
+            <div class="circuit-line" style="right:20px;top:10px;transform:rotate(-45deg)"></div>
+            <div class="circuit-node" style="left:50%;top:50%;transform:translate(-50%,-50%)"></div>
+            <div class="circuit-node" style="left:20px;top:20px"></div>
+            <div class="circuit-node" style="right:20px;top:20px"></div>
+          </div>
+          <div class="project-content">
           <h4>Structural VHDL RISC‑V (RV32I)</h4>
           <div class="meta">VHDL • Vivado • Basys3 • ALU32, RegFile, IMEM/DMEM, Control</div>
           <p>Designed a 32‑bit RV32I processor with separate ALU slices (LSB/MSB), control units, and testbench verification of a small program. Achieved correct register file state across pipeline stages in simulation.</p>
@@ -173,8 +207,15 @@
             <li>Architectures for <em>ALU</em>, <em>ALUControl</em>, <em>MainControl</em>, <em>PC</em>, <em>RegFile</em>, <em>IMEM/DMEM</em></li>
             <li>Waveform‑driven debugging and assertions</li>
           </ul>
+          </div>
         </article>
         <article class="card project">
+          <div class="project-animation" id="moneymogul-anim">
+            <div class="coin" style="left:20px;top:30px"></div>
+            <div class="coin" style="right:20px;top:20px"></div>
+            <div class="coin" style="left:50%;top:10px;transform:translateX(-50%)"></div>
+          </div>
+          <div class="project-content">
           <h4>MoneyMogul – Personal Finance Web App</h4>
           <div class="meta">HTML/CSS/JS • Flask/Go backend • Achievements • Goals • Charts</div>
           <p>Tracks goals with progress bars, monthly expenses with category breakdowns, and an advice module. Team project with frontend/backend repos.</p>
@@ -182,8 +223,13 @@
             <li>Goals with completion → Achievements</li>
             <li>Expenses page & category pie chart</li>
           </ul>
+          </div>
         </article>
         <article class="card project">
+          <div class="project-animation" id="textsql-anim">
+            <div class="database-icon"></div>
+          </div>
+          <div class="project-content">
           <h4>Text‑to‑SQL with T5‑small + PICARD</h4>
           <div class="meta">Python • NLP • Spider dataset • Eval pipeline</div>
           <p>End‑to‑end pipeline (preprocess → train → generate → evaluate). Baseline ~32% execution accuracy on a 100‑item dev slice; scaling, PICARD constraints, and error analysis planned.</p>
@@ -191,8 +237,13 @@
             <li>Beam search decoding, schema serialization</li>
             <li>Reproducible training scripts</li>
           </ul>
+          </div>
         </article>
         <article class="card project">
+          <div class="project-animation" id="petdoor-anim">
+            <div class="door"></div>
+          </div>
+          <div class="project-content">
           <h4>Smart Pet Door (I2C + PIR)</h4>
           <div class="meta">PSoC Creator • I2C • TC74 • Servo • PIR</div>
           <p>Automatic door using PIR motion detection and temperature readout. Implemented robust I2C comms and debounced control logic.</p>
@@ -200,8 +251,13 @@
             <li>Logged sensor data via UART</li>
             <li>Safety interlocks and fail‑closed design</li>
           </ul>
+          </div>
         </article>
         <article class="card project">
+          <div class="project-animation" id="ghost-anim">
+            <div class="ghost"></div>
+          </div>
+          <div class="project-content">
           <h4>Ghost Rancher – Unity 3D</h4>
           <div class="meta">Unity • C# • NavMesh • AI behaviors</div>
           <p>Prototype game with hovering ghosts that avoid the player, token collection loops, and corral logic with ectoplasm economy.</p>
@@ -209,6 +265,57 @@
             <li>Spawner + hover animation system</li>
             <li>Corral UI counters and resources</li>
           </ul>
+          </div>
+        </article>
+        <article class="card project">
+          <div class="project-animation" id="pdf-anim">
+            <div class="document"></div>
+          </div>
+          <div class="project-content">
+            <h4>PDF Data Extractor – Legal Documents & Contracts</h4>
+            <div class="meta">Python • PDF Processing • Data Extraction • Database Integration</div>
+            <p>Developed automated Python scripts to scan and extract critical information from thousands of varying legal documents and contracts, creating a structured database for sales operations.</p>
+            <ul>
+              <li>Safe extraction from diverse document formats</li>
+              <li>Automated database population for sales team</li>
+              <li>Processed thousands of contracts efficiently</li>
+            </ul>
+          </div>
+        </article>
+        <article class="card project">
+          <div class="project-animation" id="tariff-anim" style="position:relative;width:120px;height:120px">
+            <div class="chart-bar" style="left:20px;height:40px"></div>
+            <div class="chart-bar" style="left:35px;height:60px"></div>
+            <div class="chart-bar" style="left:50px;height:50px"></div>
+            <div class="chart-bar" style="left:65px;height:70px"></div>
+            <div class="chart-bar" style="left:80px;height:45px"></div>
+          </div>
+          <div class="project-content">
+            <h4>Tariff Automation System – Glory Global Solutions</h4>
+            <div class="meta">Python • VBA • NetSuite • JDE • Data Analytics • Automation</div>
+            <p>Designed and implemented automated workflows to streamline tariff data processing, reducing manual labor significantly. Developed Python/VBA scripts for datasets and built a PDF data extractor to pull tariff information from thousands of invoices.</p>
+            <ul>
+              <li>Automated invoicing process for 300+ customers monthly</li>
+              <li>Recovered $300K–$500K per month through improved accuracy</li>
+              <li>Built serial number tracking dashboard capturing $3M+ in tariff remittances</li>
+              <li>Collaborated with CFO and VP of Invoicing on strategic adaptations</li>
+            </ul>
+          </div>
+        </article>
+        <article class="card project">
+          <div class="project-animation" id="powerapp-anim">
+            <div class="app-icon"></div>
+          </div>
+          <div class="project-content">
+            <h4>Power App – Internal News Distribution</h4>
+            <div class="meta">Power Apps • Microsoft Power Platform • Internal Communications</div>
+            <p>Developed a Power App for the CEO to create and distribute internal news and updates to busy field technicians, improving communication efficiency across the organization.</p>
+            <ul>
+              <li>Streamlined information distribution to field teams</li>
+              <li>User-friendly interface for content creation</li>
+              <li>Optimized for mobile field technician access</li>
+            </ul>
+          </div>
         </article>
       </div>
     </section>
@@ -416,14 +523,160 @@
         easing: 'easeOutBack'
       });
 
-      // Stagger project cards
+      // Project-specific animations
+      // Ghost Rancher - floating ghost
+      const ghost = document.querySelector('#ghost-anim .ghost');
+      if (ghost) {
+        anime({
+          targets: ghost,
+          translateY: [0, -15, 0],
+          translateX: [0, 10, -10, 0],
+          rotate: [0, 5, -5, 0],
+          duration: 3000,
+          easing: 'easeInOutSine',
+          loop: true,
+          delay: 1000
+        });
+      }
+
+      // Circuit animation for RISC-V
+      const circuitLines = document.querySelectorAll('#riscv-anim .circuit-line');
+      circuitLines.forEach((line, i) => {
+        anime({
+          targets: line,
+          opacity: [0.3, 0.8, 0.3],
+          duration: 2000,
+          delay: i * 300,
+          easing: 'easeInOutSine',
+          loop: true
+        });
+      });
+
+      // Coins animation for MoneyMogul
+      const coins = document.querySelectorAll('#moneymogul-anim .coin');
+      coins.forEach((coin, i) => {
+        anime({
+          targets: coin,
+          translateY: [0, -8, 0],
+          rotate: [0, 360],
+          scale: [1, 1.1, 1],
+          duration: 2000 + i * 200,
+          delay: i * 200,
+          easing: 'easeInOutSine',
+          loop: true
+        });
+      });
+
+      // Database pulse for Text-to-SQL
+      const database = document.querySelector('#textsql-anim .database-icon');
+      if (database) {
+        anime({
+          targets: database,
+          scale: [1, 1.1, 1],
+          borderColor: ['#6ee7b7', '#93c5fd', '#6ee7b7'],
+          duration: 2500,
+          easing: 'easeInOutSine',
+          loop: true,
+          delay: 500
+        });
+      }
+
+      // Door opening animation for Pet Door
+      const door = document.querySelector('#petdoor-anim .door');
+      if (door) {
+        anime({
+          targets: door,
+          rotateY: [0, 45, 0],
+          duration: 3000,
+          easing: 'easeInOutSine',
+          loop: true,
+          delay: 800
+        });
+      }
+
+      // Document extraction animation
+      const document = document.querySelector('#pdf-anim .document');
+      if (document) {
+        anime({
+          targets: document,
+          scale: [1, 1.05, 1],
+          translateY: [0, -5, 0],
+          opacity: [0.8, 1, 0.8],
+          duration: 2000,
+          easing: 'easeInOutSine',
+          loop: true,
+          delay: 600
+        });
+      }
+
+      // Chart bars animation for Tariff
+      const chartBars = document.querySelectorAll('#tariff-anim .chart-bar');
+      const barHeights = ['40px', '60px', '50px', '70px', '45px'];
+      chartBars.forEach((bar, i) => {
+        const height = barHeights[i] || '50px';
+        bar.style.height = '0px';
+        anime({
+          targets: bar,
+          height: [0, height],
+          opacity: [0, 1],
+          delay: i * 100 + 500,
+          duration: 800,
+          easing: 'easeOutQuad',
+          complete: function() {
+            anime({
+              targets: bar,
+              height: [
+                {value: height, duration: 1000},
+                {value: parseInt(height) * 1.15 + 'px', duration: 1500},
+                {value: height, duration: 1000}
+              ],
+              easing: 'easeInOutSine',
+              loop: true
+            });
+          }
+        });
+      });
+
+      // App icon pulse for Power App
+      const appIcon = document.querySelector('#powerapp-anim .app-icon');
+      if (appIcon) {
+        anime({
+          targets: appIcon,
+          scale: [1, 1.15, 1],
+          rotate: [0, 5, -5, 0],
+          boxShadow: [
+            '0 4px 12px rgba(99,102,241,0.3)',
+            '0 8px 24px rgba(99,102,241,0.5)',
+            '0 4px 12px rgba(99,102,241,0.3)'
+          ],
+          duration: 2500,
+          easing: 'easeInOutSine',
+          loop: true,
+          delay: 700
+        });
+      }
+
+      // Stagger project cards appearance
       anime({
         targets: '.project',
         opacity: [0, 1],
         translateY: [40, 0],
         delay: anime.stagger(150, {start: 800}),
         duration: 700,
-        easing: 'easeOutQuad'
+        easing: 'easeOutQuad',
+        complete: function() {
+          // Animate in the project animation elements
+          document.querySelectorAll('.project-animation > *').forEach((el, i) => {
+            anime({
+              targets: el,
+              opacity: [0, 1],
+              scale: [0.8, 1],
+              delay: i * 50,
+              duration: 500,
+              easing: 'easeOutQuad'
+            });
+          });
+        }
       });
 
       // Animate skill cards
